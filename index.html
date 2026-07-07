@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <title>A.Grace Ministry 정기예배</title>
 <meta name="description" content="A.Grace Ministry 정기예배 순서지">
 <meta property="og:title" content="A.Grace Ministry 정기예배">
@@ -45,6 +46,14 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html { -webkit-text-size-adjust: 100%; }
+
+  /* 모바일: 살짝 큰 활자 + 좁은 여백 */
+  @media (max-width: 480px) {
+    html { font-size: 17px; }
+    body { padding-left: 1.05rem; padding-right: 1.05rem; }
+  }
+
+  button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 
   body {
     background: var(--paper);
@@ -142,19 +151,6 @@
     align-items: baseline;
     flex-wrap: wrap;
     gap: .45rem;
-  }
-  .chip {
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: .66rem;
-    font-weight: 500;
-    letter-spacing: .12em;
-    color: var(--gold);
-    background: var(--chip-bg);
-    border: 1px solid var(--hairline);
-    border-radius: 2px;
-    padding: .1rem .42rem .12rem;
-    white-space: nowrap;
-    transform: translateY(-2px);
   }
   .note {
     font-family: "Noto Sans KR", sans-serif;
@@ -264,20 +260,23 @@
     margin-top: .15rem;
   }
   .copy-btn {
-    margin-top: 1rem;
+    display: block;
+    width: 100%;
+    margin-top: 1.1rem;
     font-family: "Noto Sans KR", sans-serif;
-    font-size: .84rem;
+    font-size: .92rem;
     font-weight: 500;
     letter-spacing: .14em;
     color: var(--gold);
     background: transparent;
     border: 1px solid var(--gold-soft);
     border-radius: 2px;
-    padding: .55rem 1.6rem;
+    padding: .85rem 1rem;
     cursor: pointer;
     transition: background .2s ease, color .2s ease;
   }
   .copy-btn:hover, .copy-btn:focus-visible { background: var(--chip-bg); }
+  .copy-btn:active { background: var(--chip-bg); transform: translateY(1px); }
   .copy-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .copy-btn.done { color: var(--card); background: var(--gold); border-color: var(--gold); }
 
@@ -336,29 +335,29 @@
       <span class="num">1</span>
       <div>
         <p class="song">내 마음 다해</p>
-        <p class="note">오프닝 연주곡 · 각자 솔로 준비</p>
+        <p class="note">오프닝 연주곡</p>
         <p class="event"><b>어그레이스 소개 영상</b><span class="who">우리동산교회 전도사님</span></p>
       </div>
     </li>
     <li class="item">
       <span class="num">2</span>
-      <div><p class="song">임재 <span class="chip">자작곡 · 편곡</span></p></div>
+      <div><p class="song">임재</p></div>
     </li>
     <li class="item">
       <span class="num">3</span>
-      <div><p class="song">감사와 찬양드리며 <span class="chip">편곡</span></p></div>
+      <div><p class="song">감사와 찬양드리며</p></div>
     </li>
     <li class="item">
       <span class="num">4</span>
-      <div><p class="song">우리 주 안에서 노래하며 <span class="chip">카피</span></p></div>
+      <div><p class="song">우리 주 안에서 노래하며</p></div>
     </li>
     <li class="item">
       <span class="num">5</span>
-      <div><p class="song">우리가 주를 더욱 사랑하고 <span class="chip">카피</span></p></div>
+      <div><p class="song">우리가 주를 더욱 사랑하고</p></div>
     </li>
     <li class="item">
       <span class="num">6</span>
-      <div><p class="song">온 땅의 주인 + 사랑한다 말하시네 <span class="chip">편곡</span></p></div>
+      <div><p class="song">온 땅의 주인 + 사랑한다 말하시네</p></div>
     </li>
   </ol>
 
@@ -371,10 +370,7 @@
   <ol class="order order-2">
     <li class="item">
       <span class="num">7</span>
-      <div>
-        <p class="song">주 사랑합니다</p>
-        <p class="note">8번 넘어가기 전에 기도 · 7번 후렴 후 통기타로 8번 인트로 편곡</p>
-      </div>
+      <div><p class="song">주 사랑합니다</p></div>
     </li>
     <li class="item">
       <span class="num">8</span>
@@ -382,15 +378,11 @@
     </li>
     <li class="item">
       <span class="num">9</span>
-      <div>
-        <p class="song">함께 지어져가네 <span class="chip">카피</span></p>
-        <p class="event"><b>광고</b><span class="who">주영</span></p>
-        <p class="event"><b>주기도문</b><span class="who">간사님</span></p>
-      </div>
+      <div><p class="song">함께 지어져가네</p></div>
     </li>
     <li class="item">
       <span class="num">10</span>
-      <div><p class="song">실로암 <span class="chip">카피</span></p></div>
+      <div><p class="song">실로암</p></div>
     </li>
   </ol>
 
