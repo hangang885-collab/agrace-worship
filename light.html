@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>A.Grace Ministry 정기예배</title>
+<meta name="description" content="A.Grace Ministry 정기예배 순서지">
+<meta property="og:title" content="A.Grace Ministry 정기예배">
+<meta property="og:description" content="예배 순서지">
+<meta name="theme-color" content="#F8F4EB">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F8F4EB;
+    --paper-deep: #F0E9D8;
+    --card: #FDFBF4;
+    --ink: #2E2A24;
+    --ink-soft: #57503F;
+    --muted: #8D8371;
+    --gold: #A8863D;
+    --gold-soft: #C4A96B;
+    --hairline: rgba(168, 134, 61, .38);
+    --shadow: 0 10px 30px rgba(87, 74, 45, .10);
+    --chip-bg: rgba(168, 134, 61, .10);
+  }
+  /* 밝은 버전 — 시스템 설정과 무관하게 항상 아이보리 테마 유지 */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  /* 모바일: 살짝 큰 활자 + 좁은 여백 */
+  @media (max-width: 480px) {
+    html { font-size: 17px; }
+    body { padding-left: 1.05rem; padding-right: 1.05rem; }
+  }
+
+  button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+  body {
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(168,134,61,.05), transparent 42%),
+      radial-gradient(circle at 85% 88%, rgba(168,134,61,.05), transparent 42%);
+    color: var(--ink);
+    font-family: "Gowun Batang", "Noto Serif KR", serif;
+    line-height: 1.65;
+    padding: max(env(safe-area-inset-top), 1.25rem) 1.25rem calc(env(safe-area-inset-bottom) + 3rem);
+    display: flex;
+    justify-content: center;
+  }
+
+  .sheet { width: 100%; max-width: 26rem; }
+
+  /* ── Header ─────────────────────────── */
+  header {
+    text-align: center;
+    padding: 2.4rem 0 2rem;
+  }
+  .cross {
+    width: 22px; height: 30px;
+    margin: 0 auto 1.1rem;
+    display: block;
+    stroke: var(--gold);
+  }
+  .eyebrow {
+    font-family: "Cormorant Garamond", serif;
+    font-size: .95rem;
+    font-weight: 600;
+    letter-spacing: .42em;
+    text-indent: .42em; /* balance the tracking */
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 2.15rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    margin-top: .55rem;
+    text-wrap: balance;
+  }
+  .ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: .8rem;
+    margin-top: 1.5rem;
+    color: var(--gold);
+  }
+  .ornament::before, .ornament::after {
+    content: "";
+    height: 1px; width: 4.5rem;
+    background: linear-gradient(to var(--dir, right), transparent, var(--hairline));
+  }
+  .ornament::before { --dir: right; }
+  .ornament::after  { --dir: left; }
+  .ornament span {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .8rem;
+    letter-spacing: .55em;
+    text-indent: .55em;
+    color: var(--ink-soft);
+  }
+  .diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex: none; }
+
+  /* ── Order list ─────────────────────── */
+  ol.order { list-style: none; display: flex; flex-direction: column; }
+
+  .item {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    column-gap: .9rem;
+    padding: 1.05rem .25rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--hairline) 45%, transparent);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise .6s ease forwards;
+  }
+  .item:last-child { border-bottom: 0; }
+
+  .num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.85rem;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.15;
+    color: var(--gold);
+    text-align: center;
+  }
+  .song {
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .45rem;
+  }
+  .note {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: .3rem;
+    line-height: 1.55;
+  }
+
+  /* inserted sub-events (영상·광고·주기도문) */
+  .event {
+    grid-column: 2;
+    display: flex;
+    align-items: baseline;
+    gap: .55rem;
+    margin-top: .65rem;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .85rem;
+    color: var(--ink-soft);
+  }
+  .event::before {
+    content: "";
+    width: 4px; height: 4px;
+    background: var(--gold-soft);
+    transform: rotate(45deg) translateY(-1px);
+    flex: none;
+  }
+  .event b { font-weight: 700; color: var(--ink); }
+  .event .who { color: var(--muted); }
+
+  /* ── Sermon block ───────────────────── */
+  .sermon {
+    text-align: center;
+    margin: 1.4rem 0;
+    padding: 1.9rem 1rem;
+    background: var(--card);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise .6s ease forwards;
+  }
+  .sermon .label {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .5em;
+    text-indent: .5em;
+    color: var(--gold);
+  }
+  .sermon .preacher {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: .55rem;
+    letter-spacing: .04em;
+  }
+  .sermon .church {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: .25rem;
+  }
+
+  /* ── Offering ───────────────────────── */
+  .offering {
+    margin-top: 2.6rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise .6s ease forwards;
+  }
+  .offering .label {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .5em;
+    text-indent: .5em;
+    color: var(--gold);
+  }
+  .account-card {
+    margin-top: .9rem;
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    box-shadow: var(--shadow);
+    padding: 1.4rem 1.2rem 1.3rem;
+  }
+  .bank {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .86rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .acct {
+    font-family: "Noto Sans KR", sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.42rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    margin-top: .25rem;
+  }
+  .holder {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: .15rem;
+  }
+  .copy-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.1rem;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .92rem;
+    font-weight: 500;
+    letter-spacing: .14em;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--gold-soft);
+    border-radius: 2px;
+    padding: .85rem 1rem;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  .copy-btn:hover, .copy-btn:focus-visible { background: var(--chip-bg); }
+  .copy-btn:active { background: var(--chip-bg); transform: translateY(1px); }
+  .copy-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .copy-btn.done { color: var(--card); background: var(--gold); border-color: var(--gold); }
+
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-family: "Cormorant Garamond", serif;
+    font-size: .88rem;
+    font-weight: 600;
+    letter-spacing: .34em;
+    text-indent: .34em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* stagger */
+  .item:nth-child(1)  { animation-delay: .05s; }
+  .item:nth-child(2)  { animation-delay: .10s; }
+  .item:nth-child(3)  { animation-delay: .15s; }
+  .item:nth-child(4)  { animation-delay: .20s; }
+  .item:nth-child(5)  { animation-delay: .25s; }
+  .item:nth-child(6)  { animation-delay: .30s; }
+  .sermon             { animation-delay: .35s; }
+  .order-2 .item:nth-child(1) { animation-delay: .40s; }
+  .order-2 .item:nth-child(2) { animation-delay: .45s; }
+  .order-2 .item:nth-child(3) { animation-delay: .50s; }
+  .order-2 .item:nth-child(4) { animation-delay: .55s; }
+  .offering           { animation-delay: .60s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .item, .sermon, .offering { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header>
+    <svg class="cross" viewBox="0 0 22 30" fill="none" aria-hidden="true">
+      <line x1="11" y1="1.5" x2="11" y2="28.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="2.5" y1="9.5" x2="19.5" y2="9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <p class="eyebrow">A.Grace Ministry</p>
+    <h1>정기예배</h1>
+    <div class="ornament" aria-hidden="false">
+      <span class="diamond" aria-hidden="true"></span>
+      <span>예배 순서</span>
+      <span class="diamond" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <ol class="order">
+    <li class="item">
+      <span class="num">1</span>
+      <div><p class="song">내 마음 다해</p></div>
+    </li>
+    <li class="item">
+      <span class="num">2</span>
+      <div><p class="song">임재</p></div>
+    </li>
+    <li class="item">
+      <span class="num">3</span>
+      <div><p class="song">감사와 찬양드리며</p></div>
+    </li>
+    <li class="item">
+      <span class="num">4</span>
+      <div><p class="song">우리 주 안에서 노래하며</p></div>
+    </li>
+    <li class="item">
+      <span class="num">5</span>
+      <div><p class="song">우리가 주를 더욱 사랑하고</p></div>
+    </li>
+    <li class="item">
+      <span class="num">6</span>
+      <div><p class="song">온 땅의 주인 + 사랑한다 말하시네</p></div>
+    </li>
+  </ol>
+
+  <section class="sermon">
+    <p class="label">말씀</p>
+    <p class="preacher">신재웅 목사님</p>
+    <p class="church">페이지 처치</p>
+  </section>
+
+  <ol class="order order-2">
+    <li class="item">
+      <span class="num">7</span>
+      <div><p class="song">주 사랑합니다</p></div>
+    </li>
+    <li class="item">
+      <span class="num">8</span>
+      <div><p class="song">나는 일어섭니다</p></div>
+    </li>
+    <li class="item">
+      <span class="num">9</span>
+      <div><p class="song">함께 지어져가네</p></div>
+    </li>
+    <li class="item">
+      <span class="num">10</span>
+      <div><p class="song">실로암</p></div>
+    </li>
+  </ol>
+
+  <section class="offering">
+    <p class="label">헌금 계좌</p>
+    <div class="account-card">
+      <p class="bank">카카오뱅크</p>
+      <p class="acct">3333-31-7573710</p>
+      <p class="holder">예금주 · 어그레이스</p>
+      <button class="copy-btn" type="button" id="copyBtn" aria-label="계좌번호 복사하기">계좌번호 복사</button>
+    </div>
+  </section>
+
+  <footer>A.Grace Ministry</footer>
+
+</main>
+
+<script>
+  const btn = document.getElementById('copyBtn');
+  btn.addEventListener('click', async () => {
+    const number = '3333317573710';
+    try {
+      await navigator.clipboard.writeText(number);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = number;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    btn.textContent = '복사되었습니다';
+    btn.classList.add('done');
+    setTimeout(() => {
+      btn.textContent = '계좌번호 복사';
+      btn.classList.remove('done');
+    }, 1800);
+  });
+</script>
+</body>
+</html>
