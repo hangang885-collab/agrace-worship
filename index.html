@@ -8,8 +8,17 @@
 <meta name="description" content="A.Grace Ministry 정기예배 순서지">
 <meta property="og:title" content="A.Grace Ministry 정기예배">
 <meta property="og:description" content="예배 순서지">
-<meta name="theme-color" content="#F8F4EB" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1B1A17" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" id="themeColor" content="#F8F4EB">
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem("agrace-theme");
+      if (saved === "dark" || saved === "light") {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -27,20 +36,18 @@
     --shadow: 0 10px 30px rgba(87, 74, 45, .10);
     --chip-bg: rgba(168, 134, 61, .10);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --paper: #1B1A17;
-      --paper-deep: #221F1A;
-      --card: #24211B;
-      --ink: #EDE6D6;
-      --ink-soft: #CBC2AC;
-      --muted: #9A9180;
-      --gold: #C9A45C;
-      --gold-soft: #A8863D;
-      --hairline: rgba(201, 164, 92, .34);
-      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
-      --chip-bg: rgba(201, 164, 92, .13);
-    }
+  :root[data-theme="dark"] {
+    --paper: #1B1A17;
+    --paper-deep: #221F1A;
+    --card: #24211B;
+    --ink: #EDE6D6;
+    --ink-soft: #CBC2AC;
+    --muted: #9A9180;
+    --gold: #C9A45C;
+    --gold-soft: #A8863D;
+    --hairline: rgba(201, 164, 92, .34);
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    --chip-bg: rgba(201, 164, 92, .13);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,7 +75,34 @@
     justify-content: center;
   }
 
-  .sheet { width: 100%; max-width: 26rem; }
+  .sheet { width: 100%; max-width: 26rem; position: relative; }
+
+  /* ── Theme toggle ───────────────────── */
+  .theme-toggle {
+    position: absolute;
+    top: .2rem;
+    right: 0;
+    z-index: 5;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible { background: var(--chip-bg); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .theme-toggle:active { transform: scale(.94); }
+  .theme-toggle svg { width: 1.25rem; height: 1.25rem; transition: opacity .25s ease, transform .35s ease; }
+  .theme-toggle .icon-moon { display: none; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
   /* ── Header ─────────────────────────── */
   header {
@@ -123,10 +157,6 @@
   ol.order { list-style: none; display: flex; flex-direction: column; }
 
   .item {
-    display: grid;
-    grid-template-columns: 2.4rem 1fr;
-    column-gap: .9rem;
-    padding: 1.05rem .25rem;
     border-bottom: 1px solid color-mix(in srgb, var(--hairline) 45%, transparent);
     opacity: 0;
     transform: translateY(10px);
@@ -134,53 +164,106 @@
   }
   .item:last-child { border-bottom: 0; }
 
+  .item-head {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    column-gap: .9rem;
+    align-items: baseline;
+    padding: 1.05rem .25rem;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+  button.item-head {
+    cursor: pointer;
+    grid-template-columns: 2.4rem 1fr 1.3rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button.item-head:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; border-radius: 2px; }
+
   .num {
     font-family: "Cormorant Garamond", serif;
-    font-size: 1.85rem;
+    font-size: 1.65rem;
     font-weight: 500;
     font-style: italic;
-    line-height: 1.15;
+    line-height: 1;
     color: var(--gold);
     text-align: center;
+    font-variant-numeric: lining-nums;
   }
   .song {
     font-size: 1.08rem;
     font-weight: 700;
     letter-spacing: .01em;
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: .45rem;
+    line-height: 1.4;
   }
-  .note {
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: .8rem;
-    font-weight: 400;
-    color: var(--muted);
-    margin-top: .3rem;
-    line-height: 1.55;
-  }
-
-  /* inserted sub-events (영상·광고·주기도문) */
-  .event {
-    grid-column: 2;
-    display: flex;
-    align-items: baseline;
-    gap: .55rem;
-    margin-top: .65rem;
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: .85rem;
-    color: var(--ink-soft);
-  }
-  .event::before {
-    content: "";
-    width: 4px; height: 4px;
-    background: var(--gold-soft);
-    transform: rotate(45deg) translateY(-1px);
+  .chev {
+    width: 1.15rem; height: 1.15rem;
+    align-self: center;
+    color: var(--gold);
+    transition: transform .3s ease;
     flex: none;
   }
-  .event b { font-weight: 700; color: var(--ink); }
-  .event .who { color: var(--muted); }
+  button.item-head[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
+  /* ── Lyrics slider ──────────────────── */
+  .lyrics { display: none; padding: .1rem .25rem 1.3rem; }
+  .lyrics.open { display: block; animation: fade .35s ease; }
+  .slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .slides::-webkit-scrollbar { display: none; }
+  .slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    box-sizing: border-box;
+    padding: 1.6rem 1.3rem;
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    text-align: center;
+    min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .verse-no {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: .1em;
+    color: var(--gold);
+    margin-bottom: .7rem;
+  }
+  .slide p {
+    font-family: "Gowun Batang", serif;
+    font-size: 1.14rem;
+    line-height: 1.95;
+    color: var(--ink);
+  }
+  .dots { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: color-mix(in srgb, var(--gold) 32%, transparent);
+    border: 0; padding: 0; cursor: pointer;
+    transition: background .25s ease, transform .25s ease;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+  .swipe-hint {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    color: var(--muted);
+    text-align: center;
+    margin-top: .6rem;
+  }
 
   /* ── Sermon block ───────────────────── */
   .sermon {
@@ -293,6 +376,7 @@
   }
 
   @keyframes rise { to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
   /* stagger */
   .item:nth-child(1)  { animation-delay: .05s; }
@@ -310,11 +394,29 @@
 
   @media (prefers-reduced-motion: reduce) {
     .item, .sermon, .offering { animation: none; opacity: 1; transform: none; }
+    .lyrics.open { animation: none; }
+    .chev, .theme-toggle svg { transition: none; }
+    .slides { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
 <main class="sheet">
+
+  <button class="theme-toggle" type="button" id="themeToggle" aria-label="밝게/어둡게 전환" title="밝게 / 어둡게">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/>
+      <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="12" y1="1.8" x2="12" y2="4.2"/><line x1="12" y1="19.8" x2="12" y2="22.2"/>
+        <line x1="1.8" y1="12" x2="4.2" y2="12"/><line x1="19.8" y1="12" x2="22.2" y2="12"/>
+        <line x1="4.6" y1="4.6" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.4" y2="19.4"/>
+        <line x1="4.6" y1="19.4" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.4" y2="4.6"/>
+      </g>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M20 14.2A8 8 0 1 1 9.8 4a6.3 6.3 0 0 0 10.2 10.2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+  </button>
 
   <header>
     <svg class="cross" viewBox="0 0 22 30" fill="none" aria-hidden="true">
@@ -332,28 +434,36 @@
 
   <ol class="order">
     <li class="item">
-      <span class="num">1</span>
-      <div><p class="song">내 마음 다해</p></div>
+      <div class="item-head"><span class="num">1</span><span class="song">내 마음 다해</span></div>
     </li>
     <li class="item">
-      <span class="num">2</span>
-      <div><p class="song">임재</p></div>
+      <div class="item-head"><span class="num">2</span><span class="song">임재</span></div>
     </li>
     <li class="item">
-      <span class="num">3</span>
-      <div><p class="song">감사와 찬양드리며</p></div>
+      <button class="item-head" type="button" aria-expanded="false" aria-controls="lyr-3">
+        <span class="num">3</span>
+        <span class="song">감사와 찬양드리며</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="lyrics" id="lyr-3">
+        <div class="slides">
+          <div class="slide"><span class="verse-no">1</span><p>주 앞에 나가세<br>크고 광대하신 주 이름<br>그의 성소에서 주를 찬양해</p></div>
+          <div class="slide"><span class="verse-no">2</span><p>나팔소리로 찬양하며<br>비파와 수금으로<br>호흡이 있는 모든 자마다<br>온 마음 다해 주를 높이세</p></div>
+          <div class="slide"><span class="verse-no">3</span><p>주의 선하심 인자하심이<br>주의 선하심과<br>인자하심이 영원하시도다</p></div>
+          <div class="slide"><span class="verse-no">4</span><p>예수 하나님 독생자 만유의 창조주<br>모두 다 그 앞에 나아가<br>목소리 높여 주를 찬양해</p></div>
+        </div>
+        <div class="dots" aria-hidden="true"></div>
+        <p class="swipe-hint">← 넘겨서 보기 →</p>
+      </div>
     </li>
     <li class="item">
-      <span class="num">4</span>
-      <div><p class="song">우리 주 안에서 노래하며</p></div>
+      <div class="item-head"><span class="num">4</span><span class="song">우리 주 안에서 노래하며</span></div>
     </li>
     <li class="item">
-      <span class="num">5</span>
-      <div><p class="song">우리가 주를 더욱 사랑하고</p></div>
+      <div class="item-head"><span class="num">5</span><span class="song">우리가 주를 더욱 사랑하고</span></div>
     </li>
     <li class="item">
-      <span class="num">6</span>
-      <div><p class="song">온 땅의 주인 + 사랑한다 말하시네</p></div>
+      <div class="item-head"><span class="num">6</span><span class="song">온 땅의 주인 + 사랑한다 말하시네</span></div>
     </li>
   </ol>
 
@@ -365,20 +475,16 @@
 
   <ol class="order order-2">
     <li class="item">
-      <span class="num">7</span>
-      <div><p class="song">주 사랑합니다</p></div>
+      <div class="item-head"><span class="num">7</span><span class="song">주 사랑합니다</span></div>
     </li>
     <li class="item">
-      <span class="num">8</span>
-      <div><p class="song">나는 일어섭니다</p></div>
+      <div class="item-head"><span class="num">8</span><span class="song">나는 일어섭니다</span></div>
     </li>
     <li class="item">
-      <span class="num">9</span>
-      <div><p class="song">함께 지어져가네</p></div>
+      <div class="item-head"><span class="num">9</span><span class="song">함께 지어져가네</span></div>
     </li>
     <li class="item">
-      <span class="num">10</span>
-      <div><p class="song">실로암</p></div>
+      <div class="item-head"><span class="num">10</span><span class="song">실로암</span></div>
     </li>
   </ol>
 
@@ -416,6 +522,59 @@
       btn.textContent = '계좌번호 복사';
       btn.classList.remove('done');
     }, 1800);
+  });
+
+  // ── 테마 토글 ──
+  const root = document.documentElement;
+  const themeColor = document.getElementById('themeColor');
+  const toggle = document.getElementById('themeToggle');
+  function applyTheme(mode) {
+    root.setAttribute('data-theme', mode);
+    themeColor.setAttribute('content', mode === 'dark' ? '#1B1A17' : '#F8F4EB');
+    toggle.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false');
+    try { localStorage.setItem('agrace-theme', mode); } catch (e) {}
+  }
+  // 초기값: 저장된 값이 없으면 라이트 고정
+  if (!root.getAttribute('data-theme')) root.setAttribute('data-theme', 'light');
+  toggle.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
+  toggle.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // ── 가사 슬라이드 ──
+  document.querySelectorAll('.item-head[aria-controls]').forEach((head) => {
+    const panel = document.getElementById(head.getAttribute('aria-controls'));
+    head.addEventListener('click', () => {
+      const open = head.getAttribute('aria-expanded') === 'true';
+      head.setAttribute('aria-expanded', String(!open));
+      panel.classList.toggle('open', !open);
+    });
+  });
+
+  document.querySelectorAll('.lyrics').forEach((panel) => {
+    const slides = panel.querySelector('.slides');
+    const dotsWrap = panel.querySelector('.dots');
+    const slideEls = panel.querySelectorAll('.slide');
+    slideEls.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.type = 'button';
+      d.setAttribute('aria-label', (i + 1) + '번째 가사로 이동');
+      d.addEventListener('click', () => {
+        slides.scrollTo({ left: slides.clientWidth * i, behavior: 'smooth' });
+      });
+      dotsWrap.appendChild(d);
+    });
+    const dots = dotsWrap.querySelectorAll('.dot');
+    let raf = 0;
+    slides.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const idx = Math.round(slides.scrollLeft / slides.clientWidth);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      });
+    }, { passive: true });
   });
 </script>
 </body>
